@@ -1244,6 +1244,26 @@ class OpenAdsV2ApiXmlRpc
     }
 
     /**
+     * This method returns a list of banners for a specified zone.
+     * Works only with https://github.com/tomasz-kusy/revive-adserver/tree/poski
+     *
+     * @param $zoneId
+     * @return array  array BannerInfo objects
+     */
+    function getZoneAds($zoneId)
+    {
+        $dataBannerList = $this->_sendWithSession('ox.getZoneAds', [(int)$zoneId]);
+        $returnData = [];
+        foreach ($dataBannerList as $dataBanner) {
+            $oBannerInfo = new BannerInfo();
+            $oBannerInfo->readDataFromArray($dataBanner);
+            $returnData[] = $oBannerInfo;
+        }
+        return $returnData;
+    }
+
+
+    /**
      * This method returns a list of zones for a specified publisher.
      *
      * @param int $publisherId
